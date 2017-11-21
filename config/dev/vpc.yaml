@@ -1,0 +1,37 @@
+template_path: templates/vpc.j2
+sceptre_user_data:
+  vpc_name: SceptreDevVPC
+  vpc_cidr_block: "10.0.0.0/16"
+  vpc_tags:
+    -
+      Key: Name
+      Value: MySceptreExampleVPC
+    -
+      Key: Environment
+      Value: Dev
+  subnets:
+    -
+      subnet_resource_name: websubnetpriva
+      subnet_cidr_block: "10.0.10.0/23"
+      az: us-east-1a
+      subnet_tags:
+      -
+        Key: Name
+        Value: MySceptreSubnet1
+    -
+      subnet_resource_name: websubnetprivb
+      subnet_cidr_block: "10.0.8.0/23"
+      az: us-east-1b
+      subnet_tags:
+      -
+        Key: Name
+        Value: MySceptreSubnet2
+  routetableids: [
+  "rtb-1658276d",
+  "rtb-4f572834",
+  "rtb-f9611e82",
+  "rtb-c85e21b3",
+  "rtb-9d5a25e6",
+  "rtb-38592643",
+  "rtb-f8611e83"
+]

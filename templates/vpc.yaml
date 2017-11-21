@@ -1,0 +1,28 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Resources:
+  {{ sceptre_user_data.vpc_name }}:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: {{ sceptre_user_data.vpc_cidr_block }}
+      InstanceTenancy: default
+      EnableDnsSupport: 'true'
+      EnableDnsHostnames: 'false'
+      Tags:
+{%- for tagvaluepair in sceptre_user_data.vpc_tags %}
+      -
+       Key: {{ tagvaluepair.Key }}
+       Value: {{ tagvaluepair.Value }} {% endfor %}
+{%- for subnet in sceptre_user_data.subnets %}       
+  {{ subnet.subnet_resource_name }}:
+    Type: AWS::EC2::Subnet
+    Properties:
+      CidrBlock: {{ subnet.subnet_cidr_block }}
+      AvailabilityZone: {{ subnet.az }}
+      VpcId:
+        Ref: {{ sceptre_user_data.vpc_name }}
+      Tags:
+{%- for tagvaluepair in subnet.subnet_tags %}
+      -
+       Key: {{ tagvaluepair.Key }}
+       Value: {{ tagvaluepair.Value }} {% endfor %} {% endfor %}
+Description: MySceptreExamples

@@ -1,0 +1,15 @@
+AWSTemplateFormatVersion: '2010-09-09'
+  Resources:
+    S3Endpoint:
+      Type: 'AWS::EC2::VPCEndpoint'
+      Properties:
+        RouteTableIds:
+{%- for myroutetable in sceptre_user_data.routetableids %}
+          - !Ref {{ myroutetable }} {% endfor %}
+        ServiceName: !Join 
+          - ''
+          - - com.amazonaws.
+            - !Ref 'AWS::Region'
+            - .s3
+        VpcId: !Ref VPCID
+Description: Sceptre-Example
